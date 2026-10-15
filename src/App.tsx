@@ -969,6 +969,7 @@ export default function App() {
                           key={item.id}
                           aria-pressed={rhythmPart === index}
                           className={rhythmPart === index ? 'selected' : ''}
+                          style={{ '--sound-color': project.tracks[index].color } as CSSProperties}
                           onClick={() => {
                             stop();
                             setRhythmPart(index);

@@ -86,6 +86,7 @@ Son pedidos expresos del usuario. No cambiarlas sin consultarle.
 - **Sin botones de Ayuda ni Opciones.** El usuario pidió eliminarlos; no reponerlos sin consultarle.
 - **Reiniciar siempre visible**, y no deja rastros del beat anterior (tampoco en Deshacer).
 - **Reproductor grande:** «Escuchá tu beat hasta acá» es la acción principal de cada paso.
+- **Pestañas de instrumento y notas con aspecto de tecla:** Bombo, Caja y Hi-hat, y las notas de Bajo y Melodía, llevan el color de su instrumento, borde visible, letra grande y se levantan al pasar el mouse. El usuario pidió que se noten como botones; no volver a dejarlas como barras oscuras.
 
 ### Forma de trabajo
 

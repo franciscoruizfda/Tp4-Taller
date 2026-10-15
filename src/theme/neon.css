@@ -501,24 +501,64 @@ summary:focus-visible {
 .rhythm-tabs {
   border-bottom-color: var(--bm-line);
 }
+/* Instrument tabs and note keys are raised keycaps in their instrument color (--sound-color
+   inline): tinted glass with a lit lower edge at rest, a lift on hover, a full glow when chosen. */
+.rhythm-tabs button,
+.note-keys button {
+  background: var(--bm-grad-glass), color-mix(in srgb, var(--sound-color) 8%, var(--bm-surface-2));
+  border-color: color-mix(in srgb, var(--sound-color) 45%, var(--bm-line-strong));
+  color: var(--bm-text);
+  box-shadow:
+    var(--bm-highlight),
+    inset 0 -3px 0 color-mix(in srgb, var(--sound-color) 32%, transparent),
+    var(--bm-lift);
+  transition:
+    background var(--bm-dur),
+    border-color var(--bm-dur),
+    box-shadow var(--bm-dur) var(--bm-ease),
+    transform var(--bm-dur) var(--bm-ease);
+}
 .rhythm-tabs button {
-  background: var(--bm-surface-2);
-  border-color: var(--bm-line);
   border-radius: var(--bm-r-pill);
-  color: var(--bm-text-2);
+}
+@media (hover: hover) {
+  .rhythm-tabs button:not(.selected):hover,
+  .note-keys button:not(.selected):hover {
+    background:
+      var(--bm-grad-glass), color-mix(in srgb, var(--sound-color) 16%, var(--bm-surface-2));
+    border-color: var(--sound-color);
+    box-shadow:
+      var(--bm-highlight),
+      inset 0 -3px 0 color-mix(in srgb, var(--sound-color) 50%, transparent),
+      0 12px 26px -12px color-mix(in srgb, var(--sound-color) 75%, transparent);
+    transform: translateY(-2px);
+  }
+}
+.rhythm-tabs button:active,
+.note-keys button:active {
+  transform: translateY(1px);
 }
 .rhythm-tabs button > span {
-  background: var(--bm-surface-3);
+  background: color-mix(in srgb, var(--sound-color) 26%, var(--bm-surface-3));
+  color: color-mix(in srgb, var(--sound-color) 60%, white);
 }
-.rhythm-tabs button.selected {
-  background: var(--bm-glow-top), rgb(106 0 255 / 0.14);
-  border-color: var(--bm-violet-400);
+.rhythm-tabs button.selected,
+.note-keys button.selected {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--sound-color) 50%, var(--bm-surface-2)),
+    color-mix(in srgb, var(--sound-color) 22%, var(--bm-surface))
+  );
+  border-color: var(--sound-color);
   color: var(--bm-text);
-  box-shadow: var(--bm-glow-sm);
+  box-shadow:
+    var(--bm-highlight),
+    0 0 0 2px color-mix(in srgb, var(--sound-color) 55%, transparent),
+    0 12px 32px -8px color-mix(in srgb, var(--sound-color) 80%, transparent);
 }
 .rhythm-tabs button.selected > span {
-  background: var(--bm-grad-primary);
-  color: var(--bm-on-violet);
+  background: var(--sound-color);
+  color: var(--bm-bg);
 }
 .rhythm-tabs button i {
   background: var(--bm-mint);
@@ -635,17 +675,15 @@ summary:focus-visible {
 .manual-notes > p {
   color: var(--bm-text-2);
 }
+/* Keycap skin shared with the instrument tabs: see «Rhythm» above. */
 .note-keys button {
-  background: var(--bm-surface-2);
-  border-color: var(--bm-line);
   border-radius: var(--bm-r-md);
-  color: var(--bm-text-2);
 }
-.note-keys button.selected {
-  background: color-mix(in srgb, var(--sound-color) 22%, var(--bm-surface-2));
-  border-color: var(--sound-color);
+.note-keys button svg {
+  color: color-mix(in srgb, var(--sound-color) 70%, white);
+}
+.note-keys button.selected svg {
   color: var(--bm-text);
-  box-shadow: 0 0 22px color-mix(in srgb, var(--sound-color) 40%, transparent);
 }
 
 /* ── Balance ─────────────────────────────────────────────────────────────── */

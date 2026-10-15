@@ -3708,3 +3708,70 @@
     margin-left: auto;
   }
 }
+
+/* ── Instrument tabs and note keys: sized as the buttons they are ───────────
+   Larger labels and a taller hit area, so they are not mistaken for a caption row. */
+.rhythm-tabs {
+  gap: 12px;
+}
+.rhythm-tabs button {
+  min-height: 52px;
+  padding: 10px 16px;
+  gap: 10px;
+  font-size: 16px !important;
+  font-weight: 600;
+}
+.rhythm-tabs button > span {
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.rhythm-tabs button i {
+  width: 7px;
+  height: 7px;
+}
+.note-keys button {
+  font-size: 18px !important;
+  font-weight: 600;
+}
+.note-keys button svg {
+  width: 18px;
+  height: 18px;
+}
+/* Wide: give back the height the taller tabs take, so Byte's card stays above the player. */
+@media (min-width: 1400px) {
+  .rhythm-tabs {
+    padding-bottom: 12px;
+  }
+  .rhythm-lesson .sound-introduction {
+    padding: 10px 0;
+  }
+}
+@media (max-width: 580px) {
+  .rhythm-tabs {
+    gap: 6px;
+  }
+  .rhythm-tabs button {
+    min-height: 46px;
+    padding: 8px 6px;
+    gap: 6px;
+    font-size: 13px !important;
+  }
+  .rhythm-tabs button > span {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  .rhythm-tabs button i {
+    width: 5px;
+    height: 5px;
+  }
+  .note-keys button {
+    font-size: 15px !important;
+  }
+  .note-keys button svg {
+    width: 15px;
+    height: 15px;
+  }
+}

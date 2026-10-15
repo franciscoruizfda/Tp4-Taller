@@ -12,7 +12,7 @@ async function introToByte(page: Page) {
   await page.getByRole('button', { name: 'Conocer a Byte', exact: true }).click();
 }
 async function start(page: Page) {
-  await page.goto('/');
+  await page.goto('/#/beatmind');
   await introToByte(page);
   await page.getByRole('button', { name: 'Crear mi primera base', exact: true }).click();
 }
@@ -29,7 +29,7 @@ async function ask(page: Page) {
 test('beginner path, consent, optional layers, save and recover', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('/#/beatmind');
   await page.screenshot({ path: 'tmp/qa/welcome-desktop.png', fullPage: true });
   await expect(page.getByRole('heading', { name: /Acá empieza.*tu primera base/ })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Bombo, paso 1' })).toHaveCount(0);
@@ -174,7 +174,7 @@ test('skip optional instruments and invalidate ideas after manual editing', asyn
 });
 
 test('legacy projects survive onboarding and the mobile layout holds', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/#/beatmind');
   const current = await page.evaluate(() =>
     JSON.parse(localStorage.getItem('beatmind-project-v1') ?? 'null'),
   );

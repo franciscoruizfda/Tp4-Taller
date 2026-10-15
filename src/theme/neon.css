@@ -1041,3 +1041,24 @@ summary:focus-visible {
   background: rgb(0 255 153 / 0.12);
   box-shadow: 0 0 18px rgb(0 255 153 / 0.25);
 }
+
+/* ── Ir a núcleo 3 ── orchid, so it never reads as the step's own «Siguiente» */
+.nucleus-link {
+  border: 1px solid var(--bm-orchid-200);
+  border-radius: var(--bm-r-pill);
+  background: var(--bm-grad-nucleus);
+  color: var(--bm-text);
+  box-shadow: var(--bm-highlight), var(--bm-glow-orchid);
+}
+.nucleus-link:hover {
+  box-shadow: var(--bm-highlight), var(--bm-glow-orchid-strong);
+}
+.nucleus-link small {
+  color: var(--bm-orchid-200);
+  letter-spacing: var(--bm-track-label);
+}
+.nucleus-link > i {
+  background: var(--bm-text);
+  color: var(--bm-violet-500);
+  box-shadow: 0 6px 18px -6px rgb(106 0 255 / 0.8);
+}

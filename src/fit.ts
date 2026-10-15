@@ -24,7 +24,15 @@ function fit() {
   }
 }
 
+// Only BeatMind uses it: the infographic scales its own artboard. Returns the cleanup.
 export function fitToScreen() {
   fit();
   window.addEventListener('resize', fit);
+  return () => {
+    window.removeEventListener('resize', fit);
+    const root = document.documentElement.style;
+    root.zoom = '';
+    root.removeProperty('--bm-vw');
+    root.removeProperty('--bm-vh');
+  };
 }

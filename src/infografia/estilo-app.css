@@ -1,0 +1,731 @@
+/* Trial theme: the infographic dressed like the BeatMind app (Neon Studio, src/theme/tokens.css).
+   Active only with the «App» switch (.ig.estilo-app); the Figma look stays the default.
+   Same slides and positions: only the skin changes. Space Grotesk and Inter are wider than
+   Akshar, so every text is scaled down through --tam (comun.tsx) to keep the layout. */
+
+/* ── The switch (both themes) ── */
+.ig-selector {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 999px;
+  background: rgb(10 8 16 / 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 28px -10px #000;
+  font: 600 13px/1 Inter, system-ui, sans-serif;
+  color: #fff;
+}
+.ig-selector-titulo {
+  padding: 0 8px 0 12px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c3bccd;
+}
+.ig-selector button {
+  padding: 9px 16px;
+  border-radius: 999px;
+  color: #c3bccd;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.ig-selector button:hover {
+  color: #fff;
+}
+.ig-selector button[aria-pressed='true'] {
+  background: linear-gradient(180deg, #8a33ff, #6a00ff);
+  color: #fff;
+  box-shadow: 0 0 16px rgb(106 0 255 / 0.55);
+}
+
+/* ── Base ── */
+.ig.estilo-app {
+  --ig-escala-texto: 0.8;
+  --ig-escala-titulo: 0.78;
+  background: var(--bm-bg);
+  font-family: var(--bm-font-ui);
+}
+.estilo-app :is(p, h1, h2, h3, blockquote) {
+  font-family: var(--bm-font-ui);
+}
+.estilo-app .ig-slide {
+  isolation: isolate;
+  background: var(--bm-bg);
+}
+/* Horizon glow from above and the perspective grid at the bottom, like the app. */
+.estilo-app .ig-slide::before,
+.estilo-app .ig-slide::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+.estilo-app .ig-slide::before {
+  inset: 0 0 auto;
+  height: 900px;
+  background: var(--bm-horizon);
+}
+.estilo-app .ig-slide::after {
+  left: -50%;
+  right: -50%;
+  bottom: -110px;
+  height: 520px;
+  background-image:
+    linear-gradient(rgb(138 51 255 / 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(138 51 255 / 0.2) 1px, transparent 1px);
+  background-size: 72px 72px;
+  transform: perspective(520px) rotateX(64deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(to top, black, transparent 78%);
+  opacity: 0.38;
+}
+
+/* ── Accents: violet is the only accent; mint stays for status ── */
+.estilo-app .verde {
+  color: var(--bm-violet-300);
+}
+.estilo-app .rosa {
+  color: var(--bm-orchid-200);
+}
+.estilo-app .brillo {
+  text-shadow: 0 0 22px rgb(143 102 255 / 0.65);
+}
+.estilo-app .ig-texto {
+  color: var(--bm-text);
+}
+.estilo-app .ig-texto.menta {
+  color: var(--bm-violet-200);
+}
+.estilo-app .ig-texto.negrita {
+  font-weight: 600;
+}
+
+/* ── Titles: gradient face, no stacked print ── */
+.estilo-app .ig-titulo {
+  font-family: var(--bm-font-display);
+  letter-spacing: var(--bm-track-display);
+  line-height: 1.05;
+  filter: drop-shadow(0 0 30px rgb(106 0 255 / 0.4));
+}
+.estilo-app .ig-titulo-capa {
+  display: none;
+}
+.estilo-app .ig-titulo-frente,
+.estilo-app .ig-gradiente,
+.estilo-app .ig-artista,
+.estilo-app .ig-revelacion {
+  background-image: var(--bm-grad-text);
+}
+.estilo-app :is(.ig-gradiente, .ig-artista, .ig-revelacion, .ig-cifra, .ig-barra-valor) {
+  font-family: var(--bm-font-display);
+  letter-spacing: var(--bm-track-display);
+}
+.estilo-app .ig-subtitulo {
+  font-family: var(--bm-font-display);
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--bm-violet-200);
+  text-shadow: none;
+}
+.estilo-app .ig-subtitulo.blanco {
+  color: var(--bm-text);
+}
+.estilo-app .ig-capa-titulo {
+  font-family: var(--bm-font-display);
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--bm-violet-200);
+  text-shadow: none;
+}
+
+/* ── Top bar: the app header, glass ── */
+.estilo-app .ig-barra-fondo {
+  border: 1px solid var(--bm-line-strong);
+  border-radius: var(--bm-r-lg);
+  background: rgb(18 16 24 / 0.78);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--bm-highlight), var(--bm-drop);
+}
+.estilo-app .ig-barra-link {
+  font-family: var(--bm-font-display);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--bm-text-2);
+  transform: translateY(8px);
+}
+.estilo-app .ig-barra-link:hover {
+  color: var(--bm-text);
+}
+.estilo-app .ig-barra-link.activa {
+  color: var(--bm-text);
+}
+.estilo-app .ig-barra-link.activa::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--bm-grad-primary);
+  box-shadow: 0 0 10px var(--bm-violet-400);
+}
+.estilo-app .ig-barra-play {
+  filter: hue-rotate(118deg) saturate(1.2);
+}
+.estilo-app .ig-barra-pausa {
+  background: var(--bm-violet-300);
+}
+.estilo-app .ig-senal {
+  background: var(--bm-surface-3);
+}
+.estilo-app .ig-senal.on {
+  background: var(--bm-mint);
+}
+
+/* ── Section steps ── */
+.estilo-app .ig-pasos-nombre {
+  font-family: var(--bm-font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--bm-violet-200);
+  transform: translateY(8px);
+}
+.estilo-app .ig-pasos-punto {
+  background: var(--bm-violet-300);
+  box-shadow: 0 0 10px var(--bm-violet-400);
+}
+.estilo-app .ig-pasos-linea {
+  background: var(--bm-line-violet);
+}
+.estilo-app .ig-paso {
+  font-family: var(--bm-font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bm-violet-50);
+}
+.estilo-app .ig-paso::before {
+  opacity: 1;
+  border: 1px solid var(--bm-line-violet);
+  background: var(--bm-surface-2);
+}
+.estilo-app .ig-paso.actual::before {
+  background: radial-gradient(circle at 50% 0%, rgb(116 66 255 / 0.7), var(--bm-surface-2) 80%);
+}
+.estilo-app .ig-paso.actual::after {
+  border-color: var(--bm-violet-300);
+  box-shadow: var(--bm-glow-sm);
+}
+
+/* ── Cards: glass with light from above instead of neon tubes ── */
+.estilo-app .ig-neon {
+  filter: none;
+  background:
+    var(--bm-glow-top),
+    linear-gradient(180deg, rgb(30 27 37 / 0.78), rgb(23 21 27 / 0.78));
+  box-shadow: var(--bm-highlight), var(--bm-drop);
+}
+.estilo-app .ig-neon::before {
+  padding: 1px;
+  background: var(--bm-line-strong);
+}
+.estilo-app .ig-neon.trivia,
+.estilo-app .ig-neon.menta {
+  background:
+    radial-gradient(110% 55% at 50% 0%, rgb(116 66 255 / 0.36), transparent 70%),
+    linear-gradient(180deg, var(--bm-surface-3), var(--bm-surface) 70%);
+  box-shadow:
+    var(--bm-highlight),
+    0 30px 80px -30px rgb(116 66 255 / 0.5);
+}
+.estilo-app .ig-neon.trivia::before,
+.estilo-app .ig-neon.menta::before {
+  background: linear-gradient(180deg, var(--bm-line-violet), var(--bm-line));
+}
+.estilo-app .ig-neon.violeta,
+.estilo-app .ig-fondo-tarjeta {
+  display: none;
+}
+.estilo-app .ig-foto .ig-neon {
+  background: none;
+  box-shadow: none;
+}
+.estilo-app .ig-foto {
+  overflow: hidden;
+  border-radius: var(--bm-r-lg);
+  box-shadow: var(--bm-drop);
+}
+.estilo-app :is(.ig-desplegable, .ig-uso):hover .ig-neon {
+  filter: none;
+  box-shadow: var(--bm-highlight), var(--bm-glow-md);
+}
+
+/* ── Buttons: pills, the primary one is the brightest thing around ── */
+.estilo-app .ig-boton {
+  border-radius: var(--bm-r-pill);
+  font-family: var(--bm-font-display);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.estilo-app .ig-boton.grande {
+  font-size: 32px;
+}
+.estilo-app .ig-boton.relleno,
+.estilo-app .ig-empezar {
+  background: var(--bm-grad-primary);
+  color: var(--bm-on-violet);
+  box-shadow: var(--bm-highlight), var(--bm-glow-sm);
+}
+.estilo-app .ig-boton.relleno:hover,
+.estilo-app .ig-empezar:hover {
+  box-shadow: var(--bm-highlight), var(--bm-glow-md);
+}
+.estilo-app .ig-boton.contorno {
+  border: 1px solid var(--bm-line-strong);
+  background: var(--bm-grad-glass), var(--bm-surface-2);
+  color: var(--bm-violet-50);
+  box-shadow: var(--bm-highlight);
+}
+.estilo-app .ig-boton.contorno:hover {
+  border-color: var(--bm-line-violet);
+  box-shadow: var(--bm-highlight), var(--bm-glow-sm);
+}
+.estilo-app .ig-empezar {
+  border-radius: var(--bm-r-pill);
+  font-family: var(--bm-font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+}
+
+/* ── Cover ── */
+.estilo-app .ig-onda .rosa {
+  background: var(--bm-orchid);
+  box-shadow: 0 0 10px var(--bm-orchid);
+}
+.estilo-app .ig-onda .azul {
+  background: var(--bm-violet-400);
+  box-shadow: 0 0 10px var(--bm-violet-400);
+}
+.estilo-app .ig-onda .verde {
+  background: var(--bm-violet-200);
+  box-shadow: 0 0 10px var(--bm-violet-300);
+}
+.estilo-app .ig-inicio-lema {
+  left: 0 !important;
+  width: 1920px;
+  text-align: center;
+  font-family: var(--bm-font-display);
+  font-size: 50px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-shadow: none;
+}
+.estilo-app .ig-inicio-lema .verde {
+  background: var(--bm-grad-accent-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.estilo-app .ig-parlante {
+  border: 1px solid var(--bm-line-violet);
+  background: var(--bm-glow-top), var(--bm-surface);
+  box-shadow:
+    var(--bm-highlight),
+    var(--bm-drop),
+    0 0 60px -20px rgb(106 0 255 / 0.6);
+}
+.estilo-app .ig-parlante img {
+  margin: -1px 0 0 -1px;
+}
+
+/* ── 1.1 ── */
+.estilo-app .ig-desplegable-titulo {
+  font-family: var(--bm-font-display);
+  font-size: 25px;
+  font-weight: 600;
+  transform: translateY(6px);
+}
+.estilo-app .ig-pulso.rosa {
+  background: var(--bm-violet-400);
+  box-shadow: 0 0 10px var(--bm-violet-400);
+}
+.estilo-app .ig-pulso.verde {
+  background: var(--bm-kick);
+  box-shadow: 0 0 10px var(--bm-kick);
+}
+
+/* ── 1.2: instruments are the colour lanes, as in the app ── */
+.estilo-app .ig-etiqueta {
+  border: 1px solid var(--bm-line);
+  background: var(--bm-surface-2);
+  font-family: var(--bm-font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--bm-text);
+  text-shadow: none;
+}
+.estilo-app .ig-etiqueta.ancha {
+  border-color: var(--bm-line-violet);
+}
+.estilo-app .ig-led {
+  background: var(--bm-violet-300);
+  box-shadow: 0 0 8px var(--bm-violet-400);
+}
+.estilo-app .ig-casilla {
+  border-radius: 12px;
+  background: var(--bm-surface-2);
+  box-shadow: inset 0 0 0 1px var(--bm-line);
+}
+.estilo-app .ig-casilla[data-capa='kick'] {
+  --sound-color: var(--bm-kick);
+}
+.estilo-app .ig-casilla[data-capa='snare'] {
+  --sound-color: var(--bm-snare);
+}
+.estilo-app .ig-casilla[data-capa='hi-hat'] {
+  --sound-color: var(--bm-hat);
+}
+.estilo-app .ig-casilla[data-capa='clap'] {
+  --sound-color: var(--bm-melody);
+}
+.estilo-app .ig-nota.bajo {
+  --sound-color: var(--bm-bass);
+}
+.estilo-app .ig-nota.melodia {
+  --sound-color: var(--bm-melody);
+}
+.estilo-app .ig-casilla.on,
+.estilo-app .ig-nota {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--sound-color) 45%, var(--bm-surface-2)),
+    color-mix(in srgb, var(--sound-color) 14%, var(--bm-surface))
+  );
+  box-shadow:
+    inset 0 0 0 1px var(--sound-color),
+    0 10px 28px -8px color-mix(in srgb, var(--sound-color) 70%, transparent);
+  filter: none;
+}
+.estilo-app .ig-pista,
+.estilo-app .ig-panel {
+  background: var(--bm-surface-2);
+  box-shadow: inset 0 0 0 1px var(--bm-line);
+}
+.estilo-app .ig-efecto {
+  background: var(--bm-surface-3);
+}
+.estilo-app .ig-teclado .blanca {
+  background: #e9e4f2;
+}
+.estilo-app .ig-teclado b {
+  background: var(--bm-void);
+}
+.estilo-app .ig-piano b.rosa {
+  background: var(--bm-melody);
+}
+.estilo-app .ig-piano b.verde {
+  background: var(--bm-violet-300);
+  box-shadow: none;
+}
+.estilo-app .ig-fader.mezcla .ig-fader-pista {
+  background: var(--bm-surface-3);
+}
+.estilo-app .ig-fader.mezcla .ig-fader-relleno {
+  background: var(--bm-grad-primary);
+  box-shadow: 0 0 10px rgb(106 0 255 / 0.6);
+}
+
+/* ── 1.3 / 1.4 ── */
+.estilo-app .ig-cronica cite {
+  font-size: 20px;
+}
+.estilo-app .ig-franja {
+  border: 1px solid var(--bm-line-violet);
+  border-radius: var(--bm-r-lg);
+  background: var(--bm-glow-top), var(--bm-surface);
+  box-shadow: var(--bm-highlight), var(--bm-drop);
+}
+.estilo-app .ig-captura {
+  border-radius: var(--bm-r-lg);
+  box-shadow: var(--bm-drop), 0 0 0 1px var(--bm-line-strong);
+}
+.estilo-app .ig-instancia {
+  border: 1px solid var(--bm-line-violet);
+  border-radius: 48px;
+  background: radial-gradient(circle at 50% 0%, rgb(116 66 255 / 0.55), var(--bm-surface-2) 72%);
+  box-shadow: var(--bm-highlight), var(--bm-glow-md);
+}
+.estilo-app .ig-recorrido-circulo {
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 0%, rgb(116 66 255 / 0.5), var(--bm-surface-2) 72%);
+  box-shadow:
+    inset 0 0 0 1px var(--bm-line-violet),
+    var(--bm-highlight);
+}
+.estilo-app .ig-recorrido-paso:nth-child(7n + 1) .ig-recorrido-circulo {
+  background: var(--bm-grad-primary);
+  box-shadow: var(--bm-highlight), var(--bm-glow-md);
+}
+.estilo-app .ig-recorrido-circulo img:first-child {
+  opacity: 0;
+}
+.estilo-app .ig-recorrido-nombre {
+  font-family: var(--bm-font-display);
+  font-size: 34px;
+  font-weight: 600;
+}
+
+/* ── 2.1: the four stems take instrument colours ── */
+.estilo-app .ig-onda-panel {
+  background: var(--bm-void);
+  box-shadow: inset 0 0 0 1px var(--bm-line);
+}
+.estilo-app :is(.ig-conector, .ig-pista-ia, .ig-fader).voz {
+  --color: var(--bm-melody);
+}
+.estilo-app :is(.ig-conector, .ig-pista-ia, .ig-fader).bateria {
+  --color: var(--bm-kick);
+}
+.estilo-app :is(.ig-conector, .ig-pista-ia, .ig-fader).guitarra {
+  --color: var(--bm-bass);
+}
+.estilo-app :is(.ig-conector, .ig-pista-ia, .ig-fader).otros {
+  --color: var(--bm-hat);
+}
+.estilo-app .ig-pista-ia,
+.estilo-app .ig-bloque {
+  border: 1px solid color-mix(in srgb, var(--color) 55%, transparent);
+  border-radius: var(--bm-r-lg);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color) 24%, var(--bm-surface-2)), var(--bm-surface));
+  box-shadow:
+    var(--bm-highlight),
+    0 24px 60px -26px color-mix(in srgb, var(--color) 75%, transparent);
+}
+.estilo-app .ig-pista-ia-nombre {
+  font-family: var(--bm-font-display);
+  font-size: 42px;
+  font-weight: 600;
+}
+.estilo-app .ig-fader:not(.mezcla) .ig-fader-pista {
+  background: var(--bm-surface-3);
+}
+.estilo-app .ig-fader:not(.mezcla) .ig-fader-perilla {
+  border: 1px solid rgb(255 255 255 / 0.45);
+  box-shadow: var(--bm-lift);
+}
+
+/* ── 2.2: the slow way is muted, the BeatMind way glows ── */
+.estilo-app .ig-tiempo.sin-ia,
+.estilo-app .ig-tiempo.con-ia {
+  background: none;
+}
+.estilo-app .ig-cifra {
+  font-size: 100px;
+}
+.estilo-app .ig-cifra.rosa {
+  color: var(--bm-text-2);
+  text-shadow: none;
+}
+.estilo-app .ig-cifra.verde {
+  color: var(--bm-text);
+  text-shadow: 0 0 30px rgb(143 102 255 / 0.7);
+}
+.estilo-app .ig-linea-tiempo .gris {
+  background: var(--bm-surface-3);
+}
+.estilo-app .ig-linea-tiempo .uno {
+  background: var(--bm-violet-500);
+}
+.estilo-app .ig-linea-tiempo .dos {
+  background: linear-gradient(90deg, var(--bm-violet-400), var(--bm-violet-300));
+}
+.estilo-app .ig-linea-tiempo .tres {
+  background: linear-gradient(90deg, var(--bm-violet-200), var(--bm-violet-50));
+}
+.estilo-app .ig-linea-tiempo .tope,
+.estilo-app .ig-eje i {
+  background: var(--bm-text-3);
+}
+.estilo-app .ig-tramo-nombre {
+  border: 1px solid var(--bm-line);
+  background: var(--bm-surface-3);
+  font-family: var(--bm-font-ui);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--bm-text);
+}
+.estilo-app .ig-bloque {
+  font-family: var(--bm-font-display);
+  font-size: 40px;
+  font-weight: 500;
+}
+.estilo-app .ig-bloque.azul {
+  --color: var(--bm-violet-400);
+}
+.estilo-app .ig-bloque.verde {
+  --color: var(--bm-orchid);
+  color: var(--bm-text);
+}
+.estilo-app .ig-aprox {
+  font-family: var(--bm-font-ui);
+  color: var(--bm-text-2);
+}
+
+/* ── 2.3 / 2.4 ── */
+.estilo-app .ig-uso-titulo {
+  font-family: var(--bm-font-display);
+  font-size: 24px;
+  font-weight: 600;
+}
+.estilo-app .ig-uso-texto {
+  font-size: 27px;
+}
+.estilo-app .ig-captura-app {
+  border-radius: var(--bm-r-lg);
+  box-shadow: var(--bm-drop), 0 0 0 1px var(--bm-line-strong);
+}
+
+/* ── Núcleo 3 ── */
+.estilo-app .ig-artista {
+  font-size: 100px;
+}
+.estilo-app .ig-play::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  width: 301px;
+  height: 301px;
+  border-radius: 50%;
+  background: var(--bm-grad-primary);
+  box-shadow: var(--bm-highlight), var(--bm-glow-md);
+  transition: box-shadow 0.2s ease;
+}
+.estilo-app .ig-play:hover::before,
+.estilo-app .ig-play.sonando::before {
+  box-shadow: var(--bm-highlight), var(--bm-glow-lg);
+}
+.estilo-app .ig-play-circulo {
+  opacity: 0;
+}
+.estilo-app .ig-respuesta {
+  border: 0;
+  font-family: var(--bm-font-display);
+  font-size: 34px;
+  font-weight: 600;
+}
+.estilo-app .ig-respuesta.ia {
+  background: var(--bm-grad-primary);
+  box-shadow: var(--bm-highlight), var(--bm-glow-sm);
+}
+.estilo-app .ig-respuesta.humano {
+  background: var(--bm-grad-orchid);
+  box-shadow: var(--bm-highlight), var(--bm-glow-orchid);
+}
+.estilo-app .ig-respuesta.ia:hover,
+.estilo-app .ig-respuesta.ia.elegida {
+  box-shadow: var(--bm-highlight), var(--bm-glow-md);
+}
+.estilo-app .ig-respuesta.humano:hover,
+.estilo-app .ig-respuesta.humano.elegida {
+  box-shadow: var(--bm-highlight), var(--bm-glow-orchid-strong);
+}
+.estilo-app .ig-revelacion {
+  font-size: 50px;
+}
+.estilo-app .ig-globo span {
+  font-family: var(--bm-font-display);
+  color: var(--bm-violet-50);
+}
+.estilo-app .ig-gradiente.resultados {
+  font-size: 150px;
+  font-weight: 700;
+}
+.estilo-app .ig-gradiente.puntaje {
+  font-size: 104px;
+  letter-spacing: -0.02em;
+  background-image: var(--bm-grad-accent-text);
+}
+.estilo-app .ig-en-vivo {
+  border-color: var(--bm-line-violet);
+  background: rgb(116 66 255 / 0.1);
+  font-family: var(--bm-font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: var(--bm-track-label);
+  color: var(--bm-violet-200);
+}
+.estilo-app .ig-grafico,
+.estilo-app .ig-por-artista {
+  background: none;
+}
+.estilo-app .ig-grafico-linea {
+  border-top-color: var(--bm-line-strong);
+}
+.estilo-app .ig-grafico-linea span {
+  font-family: var(--bm-font-ui);
+  font-size: 22px;
+  color: var(--bm-text-3);
+}
+.estilo-app .ig-barra-dato {
+  border-radius: 16px;
+}
+/* Right answers are the one thing that glows (mint = status); wrong ones stay quiet. */
+.estilo-app .ig-barra-dato.ok,
+.estilo-app .ig-artista-relleno {
+  background: linear-gradient(180deg, var(--bm-mint), #1fb27a);
+  box-shadow: 0 0 22px rgb(0 255 153 / 0.45);
+}
+.estilo-app .ig-barra-dato.mal {
+  background: linear-gradient(180deg, var(--bm-surface-3), #3a3148);
+  box-shadow: inset 0 0 0 1px var(--bm-line-strong);
+}
+.estilo-app .ig-barra-valor {
+  font-size: 50px;
+}
+.estilo-app .ig-barra-nombre {
+  font-family: var(--bm-font-display);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--bm-text-2);
+}
+.estilo-app .ig-artista-fila {
+  font-family: var(--bm-font-display);
+  font-size: 32px;
+  font-weight: 600;
+}
+.estilo-app .ig-etiqueta-tipo {
+  font-family: var(--bm-font-ui);
+  font-size: 16px;
+  letter-spacing: var(--bm-track-label);
+}
+.estilo-app .ig-etiqueta-tipo.ia {
+  border: 1px solid var(--bm-line-violet);
+  background: rgb(116 66 255 / 0.18);
+  color: var(--bm-violet-200);
+}
+.estilo-app .ig-etiqueta-tipo.humano {
+  border: 1px solid rgb(226 195 238 / 0.4);
+  background: rgb(167 97 195 / 0.18);
+  color: var(--bm-orchid-200);
+}
+.estilo-app .ig-artista-pista {
+  background: var(--bm-surface-3);
+}
+.estilo-app .ig-artista-valor {
+  font-family: var(--bm-font-display);
+  font-size: 30px;
+}

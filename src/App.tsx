@@ -71,6 +71,9 @@ import { connectMidi, connectSerial, type HardwareEvent } from './hardware';
 import './guided.css';
 
 const STORAGE_KEY = 'beatmind-project-v1';
+// "Ir a núcleo 3" continues the interactive infographic this app belongs to (its trivia).
+// If it is ever emptied, the button still shows and Byte says it is not ready.
+const NEXT_NUCLEUS_URL = '#/nucleo-3';
 const GUIDE_KEY = 'beatmind-guide-v1';
 function initialSession() {
   let project = makeGuidedProject();
@@ -836,6 +839,26 @@ export default function App() {
                 </h1>
                 <p>{lesson.intro}</p>
               </div>
+              <a
+                className="nucleus-link"
+                href={NEXT_NUCLEUS_URL || '#'}
+                aria-label="Ir a núcleo 3"
+                onClick={(e) => {
+                  stop();
+                  if (!NEXT_NUCLEUS_URL) {
+                    e.preventDefault();
+                    notice('Todavía no tengo el enlace al núcleo 3. ¡Muy pronto!');
+                  }
+                }}
+              >
+                <span>
+                  <small>Seguí la infografía</small>
+                  Ir a núcleo 3
+                </span>
+                <i aria-hidden="true">
+                  <ArrowRight size={22} />
+                </i>
+              </a>
             </section>
             <div className="lesson-layout">
               <div className="lesson-workspace">

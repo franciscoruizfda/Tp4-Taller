@@ -1,0 +1,1270 @@
+/* Infographic «BeatMind — Cómo crear un beat usando IA», ported from the Figma slides.
+   Its own look (petrol-blue gradient, Akshar, stacked neon titles), separate from the app's
+   Neon Studio theme. Every slide is a 1920 px artboard with absolute positions (comun.tsx). */
+
+.ig {
+  --ig-rosa: #cc4bff;
+  --ig-rosa-claro: #e678eb;
+  --ig-verde: #00ff89;
+  --ig-azul: #0084ff;
+  --ig-lila: #787eeb;
+  --ig-menta: #a0e9c7;
+  --ig-menta-globo: #7eedc4;
+  --ig-violeta-oscuro: #2f0768;
+  --ig-tinta: #02011c;
+  --ig-borde-claro: #d6b9db;
+  --ig-fondo: linear-gradient(180deg, #426a8c 0%, #120c24 100%);
+  --ig-grad-titulo: linear-gradient(180deg, #fff 0%, #fff 20%, #cc4bff 271%);
+  --ig-grad-boton: linear-gradient(90deg, #cc4bff 0%, #6a00ff 100%);
+
+  min-height: 100vh;
+  background: #120c24;
+  color: #fff;
+  font-family: Akshar, sans-serif;
+  overflow-x: hidden;
+}
+.ig-escenario {
+  width: 1920px;
+}
+.ig-slide {
+  position: relative;
+  width: 1920px;
+  overflow: hidden;
+  background: var(--ig-fondo);
+}
+.ig-slide > *,
+.ig-slide [style*='left'] {
+  position: absolute;
+}
+/* Keyed wrappers without class or style only group siblings: their children keep the
+   coordinates of the card they belong to. */
+.ig-slide div:not([class]):not([style]) {
+  display: contents;
+}
+.ig :is(p, h1, h2, h3, blockquote) {
+  margin: 0;
+  font-family: Akshar, sans-serif;
+}
+:where(.ig) button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+:where(.ig) button:hover:not(:disabled) {
+  filter: none;
+}
+:where(.ig) a {
+  color: inherit;
+}
+.ig :focus-visible {
+  outline: 4px solid var(--ig-verde);
+  outline-offset: 6px;
+}
+[style*='--tam'] {
+  font-size: calc(var(--tam) * var(--ig-escala-texto, 1));
+}
+.ig-titulo[style*='--tam'] {
+  font-size: calc(var(--tam) * var(--ig-escala-titulo, 1));
+}
+.ig-img {
+  display: block;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+.ig-brillo {
+  filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 2px rgb(204 75 255 / 0.8));
+}
+.ig-byte {
+  object-fit: cover;
+}
+.verde {
+  color: var(--ig-verde);
+}
+.rosa {
+  color: var(--ig-rosa);
+}
+.brillo {
+  text-shadow: 0 0 6px currentColor;
+}
+
+/* ── Text ── */
+.ig-texto {
+  font-weight: 400;
+  line-height: normal;
+  color: #fff;
+}
+.ig-texto.negrita {
+  font-weight: 700;
+}
+.ig-texto.liviano {
+  font-weight: 300;
+}
+.ig-texto.centrado {
+  text-align: center;
+}
+.ig-texto.menta {
+  color: var(--ig-menta);
+}
+.ig-texto.suave {
+  opacity: 0.75;
+}
+.ig-subtitulo {
+  font-size: 55px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  color: var(--ig-rosa);
+  text-shadow: 0 0 8px rgb(204 75 255 / 0.9);
+}
+.ig-subtitulo.blanco {
+  color: #fff;
+  text-shadow: none;
+}
+
+/* Stacked title: three offset copies under a white→orchid face. */
+.ig-titulo {
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0;
+}
+.ig-titulo.centrado {
+  text-align: center;
+}
+.ig-titulo-capa {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.ig-titulo-capa.verde {
+  color: var(--ig-verde);
+}
+.ig-titulo-capa.azul {
+  color: var(--ig-azul);
+}
+.ig-titulo-capa.rosa {
+  color: var(--ig-rosa);
+}
+.ig-titulo-frente {
+  position: relative;
+  display: block;
+  background: var(--ig-grad-titulo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ig-gradiente {
+  font-weight: 500;
+  line-height: normal;
+  text-align: center;
+  white-space: nowrap;
+  background: var(--ig-grad-titulo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ig-gradiente.resultados {
+  font-size: 185px;
+}
+.ig-gradiente.puntaje {
+  font-size: 130px;
+  font-weight: 600;
+  letter-spacing: 3.9px;
+  background-image: linear-gradient(180deg, #fff 0%, #70cec3 136%, #78dccc 271%);
+}
+
+/* ── Neon outline (gradient ring + glow, never blurring the content) ── */
+.ig-neon {
+  pointer-events: none;
+  --anillo: linear-gradient(90deg, #cc4bff 0%, #cc4bff 55%, var(--ig-borde-claro) 100%);
+  --resplandor: rgb(204 75 255 / 0.85);
+  filter: drop-shadow(0 0 4px var(--resplandor));
+}
+.ig-neon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--grosor);
+  background: var(--anillo);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.ig-neon.verde {
+  --anillo: var(--ig-verde);
+  --resplandor: rgb(0 255 137 / 0.8);
+}
+.ig-neon.azul {
+  --anillo: var(--ig-azul);
+  --resplandor: rgb(0 132 255 / 0.8);
+}
+.ig-neon.violeta {
+  --anillo: var(--ig-rosa);
+  --resplandor: rgb(204 75 255 / 0.9);
+  filter: blur(5.9px);
+}
+.ig-neon.menta {
+  --anillo: linear-gradient(90deg, #00ff89 0%, #5ff0b0 50%, #c0fde0 100%);
+  --resplandor: rgb(0 255 137 / 0.6);
+}
+.ig-neon.trivia {
+  --anillo: linear-gradient(90deg, #00ff89 0%, #3fd8b0 22%, #6f8fe8 55%, #a57ddc 80%, #d8b6e0 100%);
+  --resplandor: rgb(0 255 137 / 0.55);
+}
+
+/* ── Top transport bar ── */
+.ig-barra {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 130px;
+  z-index: 3;
+}
+.ig-barra > * {
+  position: absolute;
+}
+.ig-barra-fondo {
+  left: 142px;
+  top: 28px;
+  width: 1636px;
+  height: 95px;
+  border-radius: 17px;
+  background: rgb(2 1 28 / 0.8);
+  box-shadow: 0 0 17px 1px var(--ig-azul);
+}
+.ig-barra-play {
+  transform: rotate(90deg);
+}
+.ig-barra-pausa {
+  background: var(--ig-azul);
+}
+.ig-barra-link {
+  font-size: 36px;
+  line-height: normal;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #fff;
+}
+.ig-barra-link:hover,
+.ig-barra-link.activa {
+  color: var(--ig-verde);
+}
+.ig-senal {
+  background: #658073;
+}
+.ig-senal.on {
+  background: var(--ig-verde);
+}
+
+/* ── Section steps «NÚCLEO 1 • 1.1 — 1.2 …» ── */
+.ig-pasos > * {
+  position: absolute;
+}
+.ig-pasos-nombre {
+  white-space: nowrap;
+  font-size: 32px;
+  line-height: normal;
+  color: var(--ig-verde);
+}
+.ig-pasos-punto {
+  border-radius: 50%;
+  background: var(--ig-verde);
+}
+.ig-pasos-linea {
+  position: absolute;
+  background: var(--ig-rosa-claro);
+}
+.ig-paso {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--ig-rosa-claro);
+  isolation: isolate;
+}
+.ig-paso::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  border: 2px solid rgb(204 75 255 / 0.8);
+  background: linear-gradient(180deg, rgb(0 132 255 / 0.69), rgb(4 25 65 / 0.69));
+  opacity: 0.5;
+}
+.ig-paso.actual::after {
+  content: '';
+  position: absolute;
+  inset: -4.5px;
+  border-radius: 50%;
+  border: 1px solid var(--ig-verde);
+  box-shadow: 0 0 4px var(--ig-verde);
+}
+a.ig-paso:hover::before {
+  opacity: 0.9;
+}
+
+/* ── Buttons ── */
+.ig-boton {
+  display: grid;
+  place-items: center;
+  border-radius: 40.5px;
+  font-size: 36px;
+  line-height: normal;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.ig-boton.contorno {
+  border: 5px solid var(--ig-rosa);
+  box-shadow:
+    0 0 5px var(--ig-rosa),
+    inset 0 0 5px var(--ig-rosa);
+}
+.ig-boton.relleno {
+  background: var(--ig-grad-boton);
+  box-shadow: 0 0 9px var(--ig-rosa);
+}
+.ig-boton.grande {
+  font-size: 45px;
+}
+.ig-boton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 22px var(--ig-rosa);
+}
+.ig-boton.contorno:hover {
+  box-shadow:
+    0 0 18px var(--ig-rosa),
+    inset 0 0 8px var(--ig-rosa);
+}
+
+/* ── Waveform logo ── */
+.ig-onda i {
+  position: absolute;
+  transform-origin: center;
+}
+.ig-onda .rosa {
+  background: var(--ig-rosa-claro);
+  box-shadow: 0 0 7px var(--ig-rosa-claro);
+}
+.ig-onda .azul {
+  background: var(--ig-lila);
+  box-shadow: 0 0 7px var(--ig-lila);
+}
+.ig-onda .verde {
+  background: var(--ig-verde);
+  box-shadow: 0 0 7px var(--ig-verde);
+}
+
+/* ── Cover ── */
+.ig-inicio-lema {
+  font-size: 64px;
+  line-height: normal;
+  white-space: nowrap;
+  text-shadow: 0 5px 0 #071625;
+}
+.ig-parlante {
+  border: 5px solid var(--ig-rosa);
+  border-radius: 46px;
+  box-shadow:
+    0 0 12px var(--ig-rosa),
+    inset 0 0 12px var(--ig-rosa);
+}
+.ig-parlante img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  margin: -5px 0 0 -5px;
+}
+.ig-empezar {
+  display: grid;
+  place-items: center;
+  border-radius: 54px;
+  background: var(--ig-grad-boton);
+  box-shadow: 0 0 24px #ab55af;
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: 9px;
+  text-decoration: none;
+  color: #fff;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.ig-empezar:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 40px #cc4bff;
+}
+.ig-carga-saltar {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.ig-carga-saltar > * {
+  position: absolute;
+}
+
+/* ── 1.1 expandable cards ── */
+.ig-desplegable {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 33px;
+  transition: height 0.35s ease;
+}
+.ig-desplegable > *,
+.ig-desplegable-cuerpo > * {
+  position: absolute;
+}
+.ig-desplegable .ig-neon {
+  transition: height 0.35s ease;
+}
+.ig-desplegable-titulo {
+  font-size: 36px;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ig-desplegable-cuerpo {
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.ig-desplegable.abierto .ig-desplegable-cuerpo {
+  opacity: 1;
+  transition-delay: 0.12s;
+}
+.ig-desplegable:hover .ig-neon {
+  filter: drop-shadow(0 0 10px var(--resplandor));
+}
+.ig-pulso {
+  border-radius: 27px;
+}
+.ig-pulso.rosa {
+  background: var(--ig-rosa);
+  box-shadow: 0 0 7px var(--ig-rosa);
+}
+.ig-pulso.verde {
+  background: var(--ig-verde);
+  box-shadow: 0 0 7px var(--ig-verde);
+}
+.ig-desplegable.abierto .ig-pulso {
+  animation: ig-pulso 1s ease-in-out infinite;
+}
+.ig-desplegable.abierto .ig-pulso:nth-of-type(2n) {
+  animation-delay: 0.5s;
+}
+
+/* ── 1.2 layer cards ── */
+.ig-capa > * {
+  position: absolute;
+}
+.ig-capa-titulo {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  color: var(--ig-rosa);
+  text-shadow: 0 0 4px var(--ig-rosa);
+}
+.ig-etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-left: 11px;
+  border-radius: 8px;
+  background: var(--ig-violeta-oscuro);
+  font-size: 32px;
+  line-height: normal;
+  color: #fff;
+  text-shadow: 0 0 7px var(--ig-rosa);
+}
+.ig-etiqueta.ancha {
+  border: 1px solid #e677eb;
+  gap: 11px;
+}
+.ig-etiqueta.centrada {
+  justify-content: center;
+  padding: 0;
+}
+.ig-led {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ig-rosa-claro);
+  box-shadow: 0 0 4px var(--ig-rosa-claro);
+}
+.ig-etiqueta:not(.ancha):not(.centrada) {
+  justify-content: flex-start;
+}
+.ig-etiqueta:not(.ancha):not(.centrada):not(:empty) {
+  padding-right: 30px;
+}
+.ig-casilla {
+  border-radius: 15px;
+  background: #2f0668;
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    box-shadow 0.12s,
+    transform 0.12s;
+}
+.ig-casilla.on {
+  background: var(--ig-rosa);
+  box-shadow: 0 0 9px var(--ig-rosa);
+}
+.ig-casilla:hover {
+  transform: scale(1.06);
+}
+.ig-pista {
+  border-radius: 8px;
+  background: var(--ig-violeta-oscuro);
+}
+.ig-nota {
+  border-radius: 8px;
+  background: var(--ig-rosa);
+  box-shadow: 0 0 7px var(--ig-rosa);
+}
+.ig-nota.suave {
+  filter: blur(1.2px);
+  box-shadow: 0 0 6px var(--ig-rosa);
+}
+.ig-teclado {
+  display: flex;
+  flex-direction: column;
+}
+.ig-teclado .blanca {
+  height: 45px;
+  background: #d9d9d9;
+}
+.ig-teclado .blanca + .blanca {
+  border-top: 3px solid #000;
+}
+.ig-teclado b {
+  position: absolute;
+  left: 0;
+  width: 90px;
+  height: 21px;
+  border-radius: 0 5px 5px 0;
+  background: #000;
+}
+.ig-piano {
+  display: flex;
+}
+.ig-piano i {
+  flex: 1;
+  height: 82px;
+  background: #fff;
+}
+.ig-piano i + i {
+  border-left: 1px solid #000;
+}
+.ig-piano i:first-child {
+  border-radius: 4px 0 0 4px;
+}
+.ig-piano i:last-child {
+  border-radius: 0 4px 4px 0;
+}
+.ig-piano b {
+  position: absolute;
+  top: 0;
+  width: 7px;
+  height: 58px;
+  border-radius: 0 0 1px 1px;
+}
+.ig-piano b.rosa {
+  background: var(--ig-rosa);
+}
+.ig-piano b.verde {
+  background: var(--ig-verde);
+  box-shadow: 0 0 4px var(--ig-verde);
+}
+.ig-panel {
+  border-radius: 8px;
+  background: var(--ig-violeta-oscuro);
+}
+.ig-efecto {
+  border-radius: 8px;
+  background: radial-gradient(circle, #2f0668, #2c0d57);
+}
+
+/* ── Faders ── */
+.ig-fader {
+  cursor: ns-resize;
+  touch-action: none;
+}
+.ig-fader > * {
+  position: absolute;
+  left: 30px;
+  width: var(--ancho);
+}
+.ig-fader-pista {
+  top: 0;
+  bottom: 0;
+  background: #7c4b8f;
+}
+.ig-fader-relleno {
+  bottom: 0;
+  background: var(--ig-rosa);
+}
+.ig-fader.mezcla .ig-fader-relleno {
+  box-shadow: 0 0 4px var(--ig-rosa);
+}
+.ig-fader-perilla.svg {
+  left: calc(30px + var(--ancho) / 2 - 16.5px);
+  width: 33px;
+  height: 49px;
+  max-width: none;
+  pointer-events: none;
+}
+.ig-fader:not(.mezcla) .ig-fader-pista,
+.ig-fader:not(.mezcla) .ig-fader-relleno {
+  border-radius: 15px;
+}
+.ig-fader:not(.mezcla) .ig-fader-pista {
+  background: #303030;
+}
+.ig-fader:not(.mezcla) .ig-fader-perilla {
+  left: calc(30px + var(--ancho) / 2 - 29.5px);
+  width: 59px;
+  height: 29px;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+.ig-fader.voz {
+  --color: var(--ig-rosa);
+}
+.ig-fader.bateria {
+  --color: var(--ig-verde);
+}
+.ig-fader.guitarra {
+  --color: var(--ig-azul);
+}
+.ig-fader.otros {
+  --color: #2f0668;
+}
+.ig-fader:not(.mezcla) .ig-fader-relleno,
+.ig-fader:not(.mezcla) .ig-fader-perilla {
+  background: var(--color);
+}
+.ig-fader:hover .ig-fader-perilla,
+.ig-fader:focus-visible .ig-fader-perilla {
+  box-shadow: 0 0 12px var(--color, var(--ig-rosa));
+}
+
+/* ── 1.3 FL Studio ── */
+.ig-captura {
+  border-radius: 33px;
+  object-fit: cover;
+}
+.ig-foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ig-cronica p + p {
+  margin-top: 37px;
+}
+.ig-cronica b {
+  font-weight: 700;
+}
+.ig-cronica b.rosa {
+  font-weight: 600;
+}
+.ig-cronica blockquote {
+  margin-top: 50px;
+  font-weight: 700;
+}
+.ig-cronica cite {
+  display: block;
+  margin-top: 17px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+.ig-cronica cite::before {
+  content: '— ';
+}
+.ig-franja {
+  border-top: 4px solid #b696b8;
+  border-bottom: 4px solid #b696b8;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(47 6 104 / 0.71), rgb(33 10 65 / 0.71));
+}
+
+/* ── 1.4 BeatMind intro ── */
+.ig-instancia {
+  border: 6px solid #2f0668;
+  border-radius: 65px;
+  background: radial-gradient(circle at 50% 18.75%, #787eeb 0%, #6261c1 20%, #4c4496 40%, #37276c 61%, #2c1856 71%, #210a41 81%);
+  box-shadow: 0 0 18px rgb(120 126 235 / 0.35);
+}
+.ig-instancia img {
+  position: absolute;
+  max-width: none;
+}
+.ig-recorrido {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.ig-recorrido-cinta {
+  display: flex;
+  width: max-content;
+}
+.ig-recorrido-paso {
+  position: relative;
+  width: 484px;
+  height: 400px;
+}
+.ig-recorrido-circulo {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 301px;
+  height: 301px;
+}
+.ig-recorrido-circulo img {
+  position: absolute;
+  max-width: none;
+}
+.ig-recorrido-circulo img:first-child {
+  inset: 0;
+  width: 301px;
+  height: 301px;
+}
+.ig-recorrido-circulo img.invertido {
+  transform: scaleY(-1);
+}
+.ig-recorrido-nombre {
+  position: absolute;
+  top: 324px;
+  left: 0;
+  width: 301px;
+  text-align: center;
+  font-size: 48px;
+  white-space: nowrap;
+}
+
+/* ── 2.1 stems ── */
+.ig-onda-panel {
+  border-radius: 20px;
+  background: var(--ig-tinta);
+}
+.ig-conector {
+  background: var(--color);
+}
+.ig-conector.voz,
+.ig-pista-ia.voz {
+  --color: var(--ig-rosa);
+  --relleno: rgb(179 111 183 / 0.45);
+}
+.ig-conector.bateria,
+.ig-pista-ia.bateria {
+  --color: var(--ig-verde);
+  --relleno: rgb(0 255 137 / 0.45);
+}
+.ig-conector.guitarra,
+.ig-pista-ia.guitarra {
+  --color: var(--ig-azul);
+  --relleno: rgb(0 132 255 / 0.42);
+}
+.ig-conector.otros,
+.ig-pista-ia.otros {
+  --color: #2f0668;
+  --relleno: rgb(72 29 133 / 0.36);
+}
+.ig-pista-ia {
+  border: 7px solid var(--color);
+  border-radius: 33px;
+  background: var(--relleno);
+  box-shadow:
+    0 0 8px var(--color),
+    inset 0 0 8px var(--color);
+}
+.ig-pista-ia-nombre {
+  text-align: center;
+  font-size: 60px;
+  line-height: normal;
+}
+.ig-recorte {
+  overflow: hidden;
+}
+.ig-recorte img {
+  position: absolute;
+  max-width: none;
+}
+
+/* ── 2.2 time comparison ── */
+.ig-tiempo.sin-ia {
+  border-radius: 33px;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(33 10 65 / 0.31), rgb(47 7 104 / 0.31));
+}
+.ig-tiempo.con-ia {
+  border-radius: 33px;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(0 255 137 / 0.28), rgb(0 83 45 / 0.28));
+}
+.ig-cifra {
+  font-size: 128px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  text-shadow: 0 0 12px currentColor;
+}
+/* «aprox» follows the figure on its baseline, whatever the font. */
+.ig-aprox {
+  margin-left: 18px;
+  font-size: calc(48px * var(--ig-escala-texto, 1));
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #fff;
+  text-shadow: none;
+}
+.ig-cifra.rosa {
+  color: var(--ig-rosa);
+}
+.ig-cifra.verde {
+  color: var(--ig-verde);
+}
+.ig-linea-tiempo > * {
+  position: absolute;
+}
+.ig-linea-tiempo .gris {
+  border-radius: 10px;
+  background: #989898;
+}
+.ig-linea-tiempo .tramo {
+  border-radius: 10px;
+}
+.ig-linea-tiempo .uno {
+  background: var(--ig-rosa);
+}
+.ig-linea-tiempo .dos {
+  background: linear-gradient(90deg, #cc4bff, #e9b3ff);
+}
+.ig-linea-tiempo .tres {
+  background: linear-gradient(90deg, #e9b3ff, #f7e3ff);
+}
+.ig-linea-tiempo .tope {
+  border-radius: 10px;
+  background: #acacac;
+}
+.ig-tramo-nombre {
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: rgb(255 255 255 / 0.67);
+  font-size: 40px;
+  line-height: normal;
+  color: #000;
+}
+.ig-bloque {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border: 7px solid var(--color);
+  border-radius: 33px;
+  background: var(--relleno);
+  box-shadow:
+    0 0 8px var(--color),
+    inset 0 0 8px var(--color);
+  font-size: 55px;
+  line-height: normal;
+}
+.ig-bloque.azul {
+  --color: var(--ig-azul);
+  --relleno: rgb(0 132 255 / 0.42);
+}
+.ig-bloque.verde {
+  --color: var(--ig-verde);
+  --relleno: rgb(0 255 137 / 0.45);
+  color: #fff;
+}
+.ig-eje i {
+  position: absolute;
+  background: #fff;
+}
+
+/* ── 2.3 uses ── */
+.ig-uso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 39px 18px 0;
+  overflow: hidden;
+  border-radius: 33px;
+  text-align: center;
+  cursor: pointer;
+  transition: height 0.35s ease;
+}
+.ig-uso .ig-neon {
+  position: absolute;
+  transition: height 0.35s ease;
+}
+/* Above the card outline/glass, which is absolutely positioned and would paint on top. */
+.ig-uso-titulo,
+.ig-uso-texto {
+  position: relative;
+}
+.ig-uso-titulo {
+  width: 289px;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: normal;
+}
+.ig-uso-texto {
+  width: 393px;
+  font-size: 36px;
+  line-height: normal;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.ig-uso.abierto .ig-uso-texto {
+  opacity: 1;
+  transition-delay: 0.12s;
+}
+.ig-uso:hover .ig-neon {
+  filter: drop-shadow(0 0 10px var(--resplandor));
+}
+
+/* ── 2.4 ── */
+.ig-captura-app {
+  display: block;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ig-captura-app img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ig-captura-app:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 40px rgb(204 75 255 / 0.6);
+}
+
+/* ── Núcleo 3: trivia ── */
+.ig-artista {
+  text-align: center;
+  font-size: 128px;
+  font-weight: 700;
+  line-height: normal;
+  background: var(--ig-grad-titulo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ig-play {
+  cursor: pointer;
+  border-radius: 50%;
+}
+.ig-play > * {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+.ig-play-circulo {
+  transform: scaleY(-1);
+  transition: filter 0.2s ease;
+}
+.ig-play:hover .ig-play-circulo,
+.ig-play.sonando .ig-play-circulo {
+  filter: drop-shadow(0 0 24px rgb(204 75 255 / 0.9));
+}
+.ig-play.cargando .ig-play-circulo {
+  animation: ig-latido 0.8s ease-in-out infinite;
+}
+.ig-play-pausa {
+  left: 6px;
+  top: 0;
+  width: 301px;
+  height: 301px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+}
+.ig-play-pausa i {
+  width: 40px;
+  height: 120px;
+  border-radius: 8px;
+  background: #fff;
+}
+.ig-respuesta {
+  display: grid;
+  place-items: center;
+  border: 6px solid;
+  border-radius: 55.5px;
+  font-size: 49px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.ig-respuesta.ia {
+  border-color: #9260c2;
+  background: #2f0c60;
+}
+.ig-respuesta.humano {
+  border-color: #6fd8c9;
+  background: #14636a;
+}
+.ig-respuesta:hover,
+.ig-respuesta.elegida {
+  transform: translateY(-3px);
+  box-shadow: 0 0 22px currentColor;
+}
+.ig-respuesta.ia:hover,
+.ig-respuesta.ia.elegida {
+  color: #fff;
+  box-shadow: 0 0 22px #9260c2;
+}
+.ig-respuesta.humano:hover,
+.ig-respuesta.humano.elegida {
+  box-shadow: 0 0 22px #6fd8c9;
+}
+.ig-revelacion {
+  text-align: center;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: normal;
+  background: var(--ig-grad-titulo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ig-byte-recorte {
+  overflow: hidden;
+}
+.ig-byte-recorte img {
+  display: block;
+  height: 100%;
+  width: 160.24%;
+  max-width: none;
+}
+.ig-globo {
+  display: grid;
+  place-items: center;
+}
+.ig-globo > * {
+  grid-area: 1 / 1;
+}
+.ig-globo img {
+  width: 100%;
+  height: 100%;
+}
+.ig-globo span {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ig-menta-globo);
+}
+.ig-globo-pico {
+  display: grid;
+  place-items: center;
+}
+.ig-globo-pico > span {
+  position: relative;
+}
+.ig-globo-pico img {
+  position: absolute;
+  left: 6.7%;
+  right: 6.7%;
+  top: 0;
+  bottom: 25%;
+  width: 86.6%;
+  height: 75%;
+}
+
+/* ── 3.3 live chart ── */
+.ig-en-vivo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 22px;
+  border: 2px solid rgb(0 255 137 / 0.5);
+  border-radius: 999px;
+  background: rgb(0 255 137 / 0.08);
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: var(--ig-menta);
+}
+.ig-en-vivo i {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ig-verde);
+  box-shadow: 0 0 10px var(--ig-verde);
+}
+.ig-en-vivo.sin-conexion {
+  border-color: rgb(255 120 140 / 0.5);
+  color: #ffb3c0;
+}
+.ig-en-vivo.sin-conexion i {
+  background: #ff6f8a;
+  box-shadow: 0 0 10px #ff6f8a;
+}
+.ig-grafico,
+.ig-por-artista {
+  border-radius: 33px;
+  background: #251640;
+}
+.ig-grafico > *,
+.ig-grafico > div > *,
+.ig-por-artista > *,
+.ig-por-artista > div > * {
+  position: absolute;
+}
+.ig-grafico-linea {
+  height: 0;
+  border-top: 1px solid rgb(255 255 255 / 0.22);
+}
+.ig-grafico-linea span {
+  position: absolute;
+  right: calc(100% + 14px);
+  top: -22px;
+  font-size: 32px;
+  color: #e9e1f5;
+}
+.ig-barra-dato {
+  border-radius: 22px;
+  transition:
+    top 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ig-barra-dato.ok {
+  background: linear-gradient(180deg, #3fe8a3, #6b8fe8);
+  box-shadow: 0 0 18px rgb(0 255 137 / 0.6);
+}
+.ig-barra-dato.mal {
+  background: linear-gradient(180deg, #e8607e, #c93a5e);
+  box-shadow: 0 0 18px rgb(255 80 120 / 0.55);
+}
+.ig-barra-valor {
+  text-align: center;
+  font-size: 64px;
+  font-weight: 700;
+  transition: top 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ig-barra-nombre {
+  text-align: center;
+  font-size: 48px;
+  color: #f2e9ff;
+}
+.ig-artista-fila {
+  font-size: 44px;
+  line-height: normal;
+  white-space: nowrap;
+}
+.ig-etiqueta-tipo {
+  padding: 4px 18px;
+  border-radius: 999px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+.ig-etiqueta-tipo.ia {
+  background: #2f0c60;
+  border: 3px solid #9260c2;
+}
+.ig-etiqueta-tipo.humano {
+  background: #14636a;
+  border: 3px solid #6fd8c9;
+}
+.ig-artista-pista {
+  border-radius: 11px;
+  background: rgb(255 255 255 / 0.12);
+}
+.ig-artista-relleno {
+  border-radius: 11px;
+  background: linear-gradient(90deg, #3fe8a3, #6b8fe8);
+  box-shadow: 0 0 10px rgb(0 255 137 / 0.5);
+  transition: width 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ig-artista-valor {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+/* ── Motion ── */
+@media (prefers-reduced-motion: no-preference) {
+  .ig-onda i {
+    animation: ig-onda 1.4s ease-in-out infinite alternate;
+  }
+  .ig-carga .ig-onda i {
+    animation-duration: 0.7s;
+  }
+  .ig-parlante-cono.grave {
+    animation: ig-bombo 0.86s ease-in-out infinite;
+  }
+  .ig-parlante-cono:not(.grave) {
+    animation: ig-bombo 0.43s ease-in-out infinite;
+  }
+  .ig-recorrido-cinta {
+    animation: ig-cinta 34s linear infinite;
+  }
+  .ig-recorrido:hover .ig-recorrido-cinta {
+    animation-play-state: paused;
+  }
+  .ig-en-vivo:not(.sin-conexion) i {
+    animation: ig-latido 1.6s ease-in-out infinite;
+  }
+  .ig-slide {
+    animation: ig-entrada 0.45s ease-out both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ig-recorrido {
+    overflow-x: auto;
+  }
+  .ig *,
+  .ig *::before {
+    transition: none !important;
+  }
+}
+@keyframes ig-onda {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0.55);
+  }
+}
+@keyframes ig-bombo {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.08);
+  }
+}
+@keyframes ig-cinta {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes ig-latido {
+  50% {
+    opacity: 0.45;
+  }
+}
+@keyframes ig-pulso {
+  50% {
+    transform: scaleY(0.6);
+  }
+}
+@keyframes ig-entrada {
+  from {
+    opacity: 0;
+  }
+}

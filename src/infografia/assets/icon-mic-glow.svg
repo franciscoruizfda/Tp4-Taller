@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="143" height="143" viewBox="0 0 143 143" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="keyboard_voice">
+<path id="Vector" d="M71.5 86.3958C81.3908 86.3958 89.3154 78.4117 89.3154 68.5208L89.375 32.7708C89.375 22.88 81.3908 14.8958 71.5 14.8958C61.6092 14.8958 53.625 22.88 53.625 32.7708V68.5208C53.625 78.4117 61.6092 86.3958 71.5 86.3958ZM64.35 32.175C64.35 28.2425 67.5675 25.025 71.5 25.025C75.4325 25.025 78.65 28.2425 78.65 32.175L78.5904 69.1167C78.5904 73.0492 75.4325 76.2667 71.5 76.2667C67.5675 76.2667 64.35 73.0492 64.35 69.1167V32.175ZM103.079 68.5208C103.079 86.3958 87.945 98.9083 71.5 98.9083C55.055 98.9083 39.9208 86.3958 39.9208 68.5208H29.7917C29.7917 88.8388 45.9983 105.641 65.5417 108.561V128.104H77.4583V108.561C97.0017 105.701 113.208 88.8983 113.208 68.5208H103.079Z" fill="url(#paint0_linear_0_21)" fill-opacity="0.63"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_21" x1="71.5" y1="14.8958" x2="71.5" y2="128.104" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CC4BFF"/>
+<stop offset="0.9999" stop-color="#8C33AF" stop-opacity="0.708269"/>
+<stop offset="1" stop-color="#7A2D99" stop-opacity="0.63"/>
+</linearGradient>
+</defs>
+</svg>

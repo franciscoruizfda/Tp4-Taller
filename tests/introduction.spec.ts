@@ -5,7 +5,7 @@ test('introduces the program before creation and auditions without changing the 
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('/#/beatmind');
   await expect(page.getByRole('navigation', { name: 'Tu recorrido' })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: /Acá empieza.*tu primera base/ })).toBeVisible();
   await expect
@@ -43,7 +43,7 @@ test('introduces the program before creation and auditions without changing the 
 test('shows the new introduction to returning users and replay preserves their phase and decisions', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('/#/beatmind');
   await expect
     .poll(() => page.evaluate(() => localStorage.getItem('beatmind-project-v1')))
     .not.toBeNull();

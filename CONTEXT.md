@@ -1,6 +1,6 @@
 # BeatMind — contexto del proyecto
 
-Estado al **10 de octubre de 2026**. Este documento sirve para retomar el trabajo en otra sesión sin perder decisiones. Distingue lo que pidió el usuario, lo que está hecho y lo que sigue abierto.
+Estado al **15 de octubre de 2026**. Este documento sirve para retomar el trabajo en otra sesión sin perder decisiones. Distingue lo que pidió el usuario, lo que está hecho y lo que sigue abierto.
 
 ## Qué es y para qué
 
@@ -12,7 +12,21 @@ Estado al **10 de octubre de 2026**. Este documento sirve para retomar el trabaj
 - La van a usar **muchas personas distintas en la misma pantalla**, una detrás de otra (tipo muestra o instalación).
 - Antes de usarla, al público se le explican las partes básicas de un beat y cómo puede ayudar una IA. La introducción de la app da contexto sin repetir esa enseñanza.
 
-## Cómo funciona hoy
+## La infografía (el sitio completo)
+
+Desde el 15 de octubre de 2026 el sitio abre en la **infografía** «BeatMind — Cómo crear un beat usando IA», pasada a web desde Figma. BeatMind es una parada del recorrido.
+
+- **Fuente de diseño:** Figma, archivo «Taller (copia)» (`I61unXcRYj3mh9KS4RIS6S`, página 1). Usar siempre esa copia: el original está en un equipo con plan Starter y la conexión de Figma se corta por límite de uso. Las pantallas válidas son las que están dentro de los tres rectángulos que marcó el usuario (Núcleo 1, 2 y 3); lo de afuera son borradores, no se borran ni se usan.
+- **Recorrido y direcciones** (`src/infografia/rutas.ts`): `#/` portada → `#/carga` (avanza sola) → `#/nucleo-1/1…4` → `#/nucleo-2/1…4` → «Probar experiencia» abre `#/beatmind` (la app) → su botón «Ir a núcleo 3» lleva a `#/nucleo-3`, la trivia. La barra de arriba (INICIO · NÚCLEO 1 · 2 · 3) y los círculos 1.1–1.4 también navegan.
+- **Escala:** cada diapositiva es un lienzo de 1920 px de ancho con las coordenadas de Figma, escalado al ancho de la ventana (`zoom`). En celular se ve entera pero chica; está pensada para la pantalla de la muestra.
+- **Interacción agregada sobre el diseño:** tarjetas que se despliegan (1.1 y 2.3), casillas de percusión que se encienden y faders que se arrastran (1.2 y 2.1), carrusel de los 7 pasos (1.4), y la trivia completa.
+- **Trivia (Núcleo 3):** 6 artistas (Lumi-7, The Weeknd, Breaking Rust, Milo J, Joji, Kode González), cada uno con su fragmento oficial de 30 s de Apple Music, que se reproduce desde Apple (no hay MP3 en el repositorio; necesita internet). Pregunta → ¡Acertaste!/¡Fallaste! → Tus resultados → gráfico (3.3).
+- **Gráfico en tiempo real:** pedido del usuario. `src/infografia/estadisticas.ts` suma cada partida terminada. Con `src/infografia/firebase.ts` vacío guarda solo en ese navegador («EN ESTA COMPUTADORA»); con la configuración de un proyecto Firebase/Firestore suma las partidas de todos los visitantes y se actualiza cada 4 s («EN VIVO»). **Pendiente:** que el usuario cree el proyecto y pase `apiKey` y `projectId`; faltan también las reglas de Firestore.
+- **Estilo propio:** la infografía no usa la estética Neon Studio de la app sino la de Figma (degradé azul petróleo, Akshar, títulos con capas rosa/azul/verde). Vive en `src/infografia/infografia.css`. **La app quedó como estaba**, por decisión del usuario.
+- **Estilo de prueba «App»:** selector flotante abajo a la derecha («Estilo: Figma | App»), como un modo oscuro/claro. «App» viste la infografía con la estética Neon Studio de BeatMind (tokens de `src/theme/tokens.css`: negro violáceo, grilla en perspectiva, tarjetas de vidrio, píldoras violetas, Space Grotesk + Inter, colores de instrumento en casillas, notas y faders). Vive solo en `src/infografia/estilo-app.css` (todo bajo `.estilo-app`) y en `SelectorEstilo.tsx`; el navegador recuerda la elección. Por defecto se ve el estilo Figma. Como esas fuentes son más anchas que Akshar, los textos se achican con `--ig-escala-texto` / `--ig-escala-titulo` (los tamaños pasan por `tam()` en `comun.tsx`). Es una prueba: el usuario decide si se queda, se descarta o se vuelve el estilo único.
+- **Textos:** se corrigieron tildes y erratas de Figma (por ejemplo «Seguí todos los pasos», «ADIVINÁ QUIÉN», «HACÉ MÁS»). Si el usuario prefiere los textos exactos de Figma, se cambian en los componentes.
+
+## Cómo funciona hoy (la app BeatMind, en #/beatmind)
 
 ### Introducción (3 pantallas, aparece siempre al abrir o recargar)
 
@@ -85,6 +99,7 @@ Son pedidos expresos del usuario. No cambiarlas sin consultarle.
 - **Header solo con logo y nombre.** No sumarle botones ni textos.
 - **Sin botones de Ayuda ni Opciones.** El usuario pidió eliminarlos; no reponerlos sin consultarle.
 - **Reiniciar siempre visible**, y no deja rastros del beat anterior (tampoco en Deshacer).
+- **«Ir a núcleo 3» arriba a la derecha de cada paso**, a la altura del título (en celular, en su propia fila debajo, también a la derecha). El usuario lo pidió a la derecha y bien visible: píldora con degradé orquídea → violeta, brillo, la línea «Seguí la infografía» y la flecha en un círculo blanco. Es orquídea a propósito, para que no se confunda con «Siguiente». La app es parte de una infografía interactiva hecha en Figma y el botón lleva a la sección siguiente. El destino es la constante `NEXT_NUCLEUS_URL` de `src/App.tsx`: mientras esté vacía, el botón se ve igual y Byte avisa que todavía no está listo. Más adelante la idea es pasar toda la infografía a web.
 - **Reproductor grande:** «Escuchá tu beat hasta acá» es la acción principal de cada paso.
 - **Pestañas de instrumento y notas con aspecto de tecla:** Bombo, Caja y Hi-hat, y las notas de Bajo y Melodía, llevan el color de su instrumento, borde visible, letra grande y se levantan al pasar el mouse. El usuario pidió que se noten como botones; no volver a dejarlas como barras oscuras.
 
@@ -97,7 +112,7 @@ Son pedidos expresos del usuario. No cambiarlas sin consultarle.
 
 ## Cómo abrir y probar
 
-Entorno Windows. Usar `npm.cmd` y `npx.cmd` (PowerShell bloquea `npm` directo).
+Entorno original Windows: ahí usar `npm.cmd` y `npx.cmd` (PowerShell bloquea `npm` directo). En la Mac del usuario, `npm` y `npx` comunes. Las pruebas de interfaz piden Google Chrome (`channel: 'chrome'`); sin Chrome se pueden correr con el Chromium de Playwright quitando esa línea en una copia de la configuración.
 
 ```powershell
 npm.cmd install
@@ -111,7 +126,7 @@ node .claude/skills/beatmind-neon/scripts/capture.mjs   # capturas en tmp/qa/neo
 - **Live Server:** abrir el `index.html` de la raíz. Redirige solo a `dist/index.html`. **Solo muestra cambios después de `npm.cmd run build`.** Es como lo abre el usuario.
 - Los beats guardados con Live Server y con Vite no se comparten (el navegador los trata como sitios distintos).
 - El script de capturas necesita el servidor de Vite activo en `http://127.0.0.1:5173/` (`npm.cmd run dev`). Saca la introducción, los 7 pasos y una propuesta en 1920×950, 1440×1000 y 390×844, sin tocar los guardados reales.
-- La carpeta **no es un repositorio Git**.
+- La carpeta es un repositorio Git conectado a `github.com/franciscoruizfda/Tp4-Taller` (rama `main`). Cada push a `main` publica la app en GitHub Pages.
 
 ## Estructura
 
@@ -123,6 +138,8 @@ Aplicación de navegador, sin backend, cuentas ni servicios externos. React + Ty
 | `CONTEXT.md`                                 | Este documento.                                                                                                      |
 | `Funcionamiento-BeatMind.pdf`                | Referencia funcional original. No se modifica.                                                                       |
 | `README.md`, `docs/`                         | Ejecución, alcance, experiencia guiada e identidad visual (incluye la tabla de poses de Byte).                       |
+| `src/main.tsx`                               | Elige entre la infografía y la app según la dirección (`#/beatmind` = app).                                          |
+| `src/infografia/`                            | La infografía: `Portada`, `Nucleo1`, `Nucleo2`, `Nucleo3` (trivia), `comun` (barra, pasos, títulos, botones), `Fader`, `trivia.ts`, `estadisticas.ts`, `firebase.ts`, estilos y `assets/` (imágenes de Figma en WebP y SVG). |
 | `src/App.tsx`                                | Estado, navegación, reproducción, propuestas y consentimiento. Define `STEP_ICONS` y `ByteSays`.                     |
 | `src/Introduction.tsx`                       | Las tres pantallas de introducción.                                                                                  |
 | `src/Byte.tsx`, `src/assets/byte/`           | Componente de la mascota, 12 poses en WebP y la pose de cada paso (`PHASE_POSES`).                                   |

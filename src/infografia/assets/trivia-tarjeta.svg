@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1240" height="1196" viewBox="0 0 1240 1196" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Rectangle 42" d="M33 3.5H1207C1223.29 3.5 1236.5 16.7076 1236.5 33V1163C1236.5 1179.29 1223.29 1192.5 1207 1192.5H33C16.7076 1192.5 3.50002 1179.29 3.5 1163V33C3.5 16.7076 16.7076 3.5 33 3.5Z" fill="url(#paint0_radial_0_19)" fill-opacity="0.31" stroke="url(#paint1_linear_0_19)" stroke-width="7"/>
+<defs>
+<radialGradient id="paint0_radial_0_19" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(625 596.834) scale(632 612.377)">
+<stop stop-color="#210A41"/>
+<stop offset="1" stop-color="#2F0768"/>
+</radialGradient>
+<linearGradient id="paint1_linear_0_19" x1="-7" y1="596.834" x2="1257" y2="596.834" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CC4BFF"/>
+<stop offset="1" stop-color="#B696B8"/>
+</linearGradient>
+</defs>
+</svg>

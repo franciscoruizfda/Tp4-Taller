@@ -13,7 +13,7 @@ const arg = (name, fallback) => {
   const i = argv.indexOf(`--${name}`);
   return i >= 0 && argv[i + 1] ? argv[i + 1] : fallback;
 };
-const url = arg('url', 'http://127.0.0.1:5173/');
+const url = arg('url', 'http://127.0.0.1:5173/#/beatmind');
 const out = resolve(arg('out', 'tmp/qa/neon'));
 // 'wide' is a full-HD monitor with browser chrome: captured as the visible viewport only, to
 // judge how much of the screen is used without scrolling. The others capture the full page.

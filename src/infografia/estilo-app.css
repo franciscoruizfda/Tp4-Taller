@@ -729,3 +729,11 @@
   font-family: var(--bm-font-display);
   font-size: 30px;
 }
+
+.estilo-app .ig-candado-aviso {
+  font-family: var(--bm-font-ui);
+  color: var(--bm-text-2);
+}
+.estilo-app .ig-candado-aviso.abierto {
+  color: var(--bm-mint);
+}

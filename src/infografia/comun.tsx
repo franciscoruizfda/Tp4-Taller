@@ -1,4 +1,6 @@
 import { Fragment, type CSSProperties, type ReactNode } from 'react';
+import { LockKeyhole } from 'lucide-react';
+import { useNucleo3Abierto } from '../nucleo3';
 import { RUTA, ir } from './rutas';
 import barRecord from './assets/bar-record.svg';
 import barPlay from './assets/bar-play.svg';
@@ -44,6 +46,7 @@ const SECCIONES: { id: Seccion; texto: string; href: string; left: number }[] = 
 
 // The transport bar of a DAW: record, play, pause and stop are decoration; the sections navigate.
 function BarraSuperior({ activa }: { activa: Seccion }) {
+  const nucleo3 = useNucleo3Abierto();
   return (
     <nav className="ig-barra" aria-label="Secciones de la infografía">
       <i className="ig-barra-fondo" />
@@ -52,17 +55,24 @@ function BarraSuperior({ activa }: { activa: Seccion }) {
       <i className="ig-barra-pausa" style={at(283, 53, 12, 36)} />
       <i className="ig-barra-pausa" style={at(304, 53, 12, 36)} />
       <i className="ig-barra-pausa" style={at(335, 53, 33, 36)} />
-      {SECCIONES.map((s) => (
-        <a
-          key={s.id}
-          className={`ig-barra-link ${s.id === activa ? 'activa' : ''}`}
-          href={s.href}
-          aria-current={s.id === activa ? 'page' : undefined}
-          style={at(s.left, 48)}
-        >
-          {s.texto}
-        </a>
-      ))}
+      {SECCIONES.map((s) => {
+        // Núcleo 3 opens once the visitor made and downloaded a beat; until then it leads to 2.4.
+        const bloqueado = s.id === 'nucleo3' && !nucleo3 && activa !== 'nucleo3';
+        return (
+          <a
+            key={s.id}
+            className={`ig-barra-link ${s.id === activa ? 'activa' : ''} ${bloqueado ? 'bloqueada' : ''}`}
+            href={bloqueado ? RUTA.nucleo2(4) : s.href}
+            aria-current={s.id === activa ? 'page' : undefined}
+            aria-label={bloqueado ? 'Núcleo 3: se desbloquea al descargar tu beat en BeatMind' : undefined}
+            title={bloqueado ? 'Creá y descargá tu beat en BeatMind para desbloquearlo' : undefined}
+            style={at(s.left, 48)}
+          >
+            {s.texto}
+            {bloqueado && <LockKeyhole className="ig-candado" size={26} aria-hidden="true" />}
+          </a>
+        );
+      })}
       {[
         [1665, 85, 16, true],
         [1682, 74, 27, true],

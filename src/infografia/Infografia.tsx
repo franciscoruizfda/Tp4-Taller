@@ -4,7 +4,8 @@ import { Carga, Inicio } from './Portada';
 import { Nucleo11, Nucleo12, Nucleo13, Nucleo14 } from './Nucleo1';
 import { Nucleo21, Nucleo22, Nucleo23, Nucleo24 } from './Nucleo2';
 import { Nucleo3 } from './Nucleo3';
-import type { Ruta } from './rutas';
+import { useNucleo3Abierto } from '../nucleo3';
+import { RUTA, type Ruta } from './rutas';
 import './infografia.css';
 import './estilo-app.css';
 
@@ -32,10 +33,19 @@ function Pantalla({ ruta }: { ruta: Ruta }) {
     case 'nucleo2':
       return [<Nucleo21 />, <Nucleo22 />, <Nucleo23 />, <Nucleo24 />][ruta.paso - 1];
     case 'nucleo3':
-      return <Nucleo3 />;
+      return <Nucleo3Protegido />;
     default:
       return <Inicio />;
   }
+}
+
+// Opening #/nucleo-3 directly before downloading a beat lands on 2.4, where BeatMind starts.
+function Nucleo3Protegido() {
+  const abierto = useNucleo3Abierto();
+  useEffect(() => {
+    if (!abierto) window.location.replace(RUTA.nucleo2(4));
+  }, [abierto]);
+  return abierto ? <Nucleo3 /> : null;
 }
 
 export default function Infografia({ ruta }: { ruta: Ruta }) {

@@ -1268,3 +1268,25 @@ a.ig-paso:hover::before {
     opacity: 0;
   }
 }
+
+/* ── Núcleo 3 locked until the beat is downloaded ── */
+.ig-barra-link.bloqueada {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.55;
+}
+.ig-barra-link.bloqueada:hover {
+  color: #fff;
+  opacity: 0.8;
+}
+.ig-candado-aviso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--ig-menta);
+}
+.ig-candado-aviso.abierto {
+  color: var(--ig-verde);
+}

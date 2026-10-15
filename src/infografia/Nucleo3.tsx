@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { BotonSiguiente, Diapositiva, Imagen, Neon, Pasos, RUTA, TituloNeon, at, tam } from './comun';
+import { bloquearNucleo3 } from '../nucleo3';
 import { COMPARTIDO, registrarPartida, useEstadisticas } from './estadisticas';
+import { ir } from './rutas';
 import { ARTISTAS } from './trivia';
 import tarjeta from './assets/trivia-tarjeta.svg';
 import tarjetaCorta from './assets/trivia-tarjeta-corta.svg';
@@ -296,7 +298,16 @@ function Grafico({ onRepetir }: { onRepetir: () => void }) {
       <button className="ig-boton contorno" style={at(560, 1760, 380, 81)} onClick={onRepetir}>
         JUGAR DE NUEVO
       </button>
-      <BotonSiguiente left={980} top={1760} width={380} href={RUTA.inicio}>
+      <BotonSiguiente
+        left={980}
+        top={1760}
+        width={380}
+        onClick={() => {
+          // The experience is over: the next visitor has to make their own beat.
+          bloquearNucleo3();
+          ir(RUTA.inicio);
+        }}
+      >
         VOLVER AL INICIO
       </BotonSiguiente>
     </Diapositiva>

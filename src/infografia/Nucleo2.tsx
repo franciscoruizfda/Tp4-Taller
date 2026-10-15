@@ -1,5 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { BotonSiguiente, BotonVolver, Diapositiva, Imagen, Neon, Pasos, RUTA, TituloNeon, at, tam } from './comun';
+import { LockKeyhole, Check } from 'lucide-react';
+import { useNucleo3Abierto } from '../nucleo3';
 import { Fader } from './Fader';
 import ondaMezcla from './assets/onda-mezcla.svg';
 import faderTicks from './assets/fader-ticks.svg';
@@ -257,6 +259,7 @@ export function Nucleo23() {
 /* ── 2.4 Manos a la obra ──────────────────────────────────────────────────── */
 
 export function Nucleo24() {
+  const nucleo3 = useNucleo3Abierto();
   return (
     <Diapositiva alto={2092} seccion="nucleo2">
       {pasos(4)}
@@ -274,7 +277,18 @@ export function Nucleo24() {
       <a className="ig-boton relleno grande" href={RUTA.beatmind} style={at(751, 1724, 417, 100)}>
         PROBAR EXPERIENCIA
       </a>
+      <p className={`ig-candado-aviso ${nucleo3 ? 'abierto' : ''}`} style={{ ...at(0, 1852, 1920), ...tam(32) }}>
+        {nucleo3 ? <Check size={30} aria-hidden="true" /> : <LockKeyhole size={30} aria-hidden="true" />}
+        {nucleo3
+          ? '¡Núcleo 3 desbloqueado! Ya podés seguir.'
+          : 'Creá tu beat y descargalo para desbloquear el Núcleo 3'}
+      </p>
       <BotonVolver left={162} top={1933} href={RUTA.nucleo2(3)} />
+      {nucleo3 && (
+        <BotonSiguiente left={1455} top={1933} href={RUTA.nucleo3}>
+          NÚCLEO 3
+        </BotonSiguiente>
+      )}
     </Diapositiva>
   );
 }
